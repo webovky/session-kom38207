@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+"""
+secret_key se generuje nejlépe pomocí os.urandom(24)
+ale obecně je to prostě velké náhodné číslo
+proměnnou secret_key nikdy nesdílím v repositářifla
+"""
 app.secret_key = b'\xe3\x84t\x8b\x02\x1c\xfb\x82PH\x19\xe8\x98\x05\x90\xa8\xc83\xf1\xe2\xf4v\xfe\xf0'b'\xe3\x84t\x8b\x02\x1c\xfb\x82PH\x19\xe8\x98\x05\x90\xa8\xc83\xf1\xe2\xf4v\xfe\xf0'
 
 
@@ -46,3 +51,25 @@ def banany(parametr):
 @app.route("/kvetak/")
 def kvetak():
     return render_template("kvetak.html.j2")
+
+@app.route("/Login/")
+def Login():
+    return render_template("login.html.j2")
+
+@app.route("/Login/", methods=["GET"])
+def login_post():
+
+    login = request.form.get("login")
+    password = request.form.get("password")
+    print("POST:", login, password)
+
+    return redirect(url_for("Login"))
+
+@app.route("/Login/", methods=["POST"])
+def login_get():
+
+    login = request.form.get("login")
+    password = request.form.get("password")
+    print("POST:", login, password)
+
+    return redirect(url_for("Login"))
